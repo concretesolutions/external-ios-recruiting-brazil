@@ -2,7 +2,7 @@ import Foundation
 
 extension String {
     
-    func formattedDateFromString(dateString: String, withFormat format: String) -> String? {
+    func formattedDateFromString(dateString: String, withFormat format: String) -> String {
         
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = "yyyy-MM-dd" //date format from the API

@@ -246,10 +246,8 @@ class MovieListViewController: UITableViewController {
     }
     
     func showMovieIn(cell: MovieListCell, movie: Movie) {
-        let releasedDate = movie.release_date
-        
         cell.titleLabel.text = movie.title
-        cell.dateLabel.text = releasedDate.formattedDateFromString(dateString: releasedDate, withFormat: "dd/MM/yyyy")
+        cell.dateLabel.text = movie.localizedReleaseDate
         cell.genreLabel.text = movie.genresString
         
         cell.coverImageView.image = nil

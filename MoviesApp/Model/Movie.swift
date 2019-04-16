@@ -32,7 +32,7 @@ struct Movie: Codable  {
     var localizedReleaseDate: String {
         // TODO: format date 
     
-        return self.release_date
+        return self.release_date.formattedDateFromString(dateString: self.release_date, withFormat: "dd/MM/yyyy")
         
     }
     

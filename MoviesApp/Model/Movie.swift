@@ -1,5 +1,6 @@
 
 import Foundation
+import Disk
 
 enum MovieKey: String, CodingKey {
     case id = "id"
@@ -30,10 +31,22 @@ struct Movie: Codable  {
     }
     
     var localizedReleaseDate: String {
-        // TODO: format date 
-    
         return self.release_date.formattedDateFromString(dateString: self.release_date, withFormat: "dd/MM/yyyy")
         
     }
     
+    var favorited: Bool {
+
+        get{
+            let fav = try? Disk.retrieve("favorite.json", from: .applicationSupport, as: [Movie].self)
+            if (fav?.index{ $0.id == self.id}) != nil {
+                return true
+            } else {
+                return false
+            }
+        }
+        set {
+            return
+        }
+    }
 }

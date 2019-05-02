@@ -30,7 +30,7 @@ class MovieDetailViewController: UIViewController {
             do {
                 let retrievedFavorites = try Disk.retrieve("favorite.json", from: .applicationSupport, as: [Movie].self)
                 let found = retrievedFavorites.filter {
-                    $0.title == self.presenter.movie.title
+                    $0.id == self.presenter.movie.id
                 }
                 if found.isEmpty {
                     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(addTapped))
@@ -54,23 +54,31 @@ class MovieDetailViewController: UIViewController {
     
     @objc func addTapped() {
         
-        //if the file exists append
         if Disk.exists("favorite.json", in: .applicationSupport) {
             
-            //if the movie exists has to be deleted else has to be saved
-            do {
-                var retrievedFavorites = try Disk.retrieve("favorite.json", from: .applicationSupport, as: [Movie].self)
-                let index = retrievedFavorites.index{ $0.title == self.presenter.movie.title}
-                if let index = index {
-                    retrievedFavorites.remove(at: index)
-                    try Disk.save(retrievedFavorites, to: .applicationSupport, as: "favorite.json")
-                }
-                else {
-                    try Disk.append([self.presenter.movie], to: "favorite.json", in: .applicationSupport)
-                }
-            } catch {
-                print(error.localizedDescription)
+            var fav = try? Disk.retrieve("favorite.json", from: .applicationSupport, as: [Movie].self)
+            if (fav?.index{ $0.id == self.presenter.movie.id}) != nil {
+                fav?.removeAll{$0.id == self.presenter.movie.id}
+                try? Disk.save(fav, to: .applicationSupport, as: "favorite.json")
+            } else {
+                try? Disk.append([self.presenter.movie], to: "favorite.json", in: .applicationSupport)
             }
+            
+            
+            //if the movie exists has to be deleted else has to be saved
+//            do {
+//                var retrievedFavorites = try Disk.retrieve("favorite.json", from: .applicationSupport, as: [Movie].self)
+//                let index = retrievedFavorites.index{ $0.title == self.presenter.movie.title}
+//                if let index = index {
+//                    retrievedFavorites.remove(at: index)
+//                    try Disk.save(retrievedFavorites, to: .applicationSupport, as: "favorite.json")
+//                }
+//                else {
+//                    try Disk.append([self.presenter.movie], to: "favorite.json", in: .applicationSupport)
+//                }
+//            } catch {
+//                print(error.localizedDescription)
+//            }
         } else {
             try? Disk.save([self.presenter.movie], to: .applicationSupport, as: "favorite.json")
         }
@@ -102,7 +110,7 @@ extension MovieDetailViewController: MovieDetailView {
         self.titleLabel.text = title
         self.dateLabel.text = date.formattedDateFromString(dateString: date, withFormat: "dd/MM/yyyy")
         self.genreLabel.text = genre
-        self.overviewLabel.text = overview
+        self.overviewLabel.text = overview        
     }
     
     func loadImage(url: URL) {

@@ -6,6 +6,7 @@ protocol MovieListView: NSObjectProtocol {
     func finishLoading(movies: [Movie])
 }
 
+
 class MovieListViewController: UITableViewController {
     
     private let presenter = MovieListPresenter()
@@ -13,8 +14,8 @@ class MovieListViewController: UITableViewController {
     var tableData: [Movie]?
     
     let searchController = UISearchController(searchResultsController: nil)
-    var filteredMovies: [Movie]?
-    var retrievedFavorites: [Movie]?
+    //var filteredMovies: [Movie]?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,31 +40,18 @@ class MovieListViewController: UITableViewController {
             // Fallback on earlier versions
         }
         definesPresentationContext = true
+        
+        //debugPrint("Popular view did load")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if navigationController?.tabBarItem.tag == 0 {
-            self.presenter.loadGenreAndMovies()
-        } else {
-            debugPrint("Loading favorite movies")
-
-            do {
-                
-                retrievedFavorites = try Disk.retrieve("favorite.json", from: .applicationSupport, as: [Movie].self)
-                if let retrievedMovies = retrievedFavorites {
-                    finishLoading(movies: retrievedMovies)
-                }
-                dump(retrievedFavorites)
-                
-                
-            } catch {
-                print(error.localizedDescription)
-            }
-
-        }
+        self.tableView.reloadData()
         
+        
+        //debugPrint("Popular will appear")
+        self.presenter.loadGenreAndMovies()
         
         // TODO: add loading view
         // TODO: error handler and alerts / retry
@@ -75,17 +63,24 @@ class MovieListViewController: UITableViewController {
     }
     
     func filterContentForSearchText (_ searchText: String, scope: String = "All") {
-        if navigationController?.tabBarItem.tag == 0 {
-            filteredMovies = (tableData?.filter({ (movie: Movie) -> Bool in
-                return movie.title.lowercased().contains(searchText.lowercased())
-            }))!
+
+        //            filteredMovies = (tableData?.filter({ (movie: Movie) -> Bool in
+        //                return movie.title.lowercased().contains(searchText.lowercased())
+        //            }))!
+        //            tableView.reloadData()
+
+        if !searchText.isEmpty {
+            //self.presenter.isFiltering = true
+            self.presenter.movies = nil
+            self.presenter.search(query: searchText)
         } else {
-            filteredMovies = (retrievedFavorites?.filter({ (movie: Movie) -> Bool in
-                return movie.title.lowercased().contains(searchText.lowercased())
-            }))!
+            debugPrint("Search text está vazio")
+            //self.presenter.isFiltering = false
+            self.presenter.isLoading = false
+            self.presenter.movies = nil
+            self.presenter.loadGenre()
+            
         }
-        
-        tableView.reloadData()
         
     }
     
@@ -113,27 +108,22 @@ class MovieListViewController: UITableViewController {
         let action = UIContextualAction(style: .normal, title: "Favorite", handler: { (action, view, completionHandler) in
             var movie = self.tableData?[indexPath.row]
             
-            if self.isFiltering() {
-                movie = self.filteredMovies?[indexPath.row]
-            }
+            //if self.isFiltering() {
+            //    movie = self.filteredMovies?[indexPath.row]
+            //}
             if Disk.exists("favorite.json", in: .applicationSupport) {
-                do {
-                    if let movie = movie{
-                        let retrievedFavorites = try Disk.retrieve("favorite.json", from: .applicationSupport, as: [Movie].self)
-                        if let _ = retrievedFavorites.index(where: { $0.title == movie.title}) {
-                            return
-                        } else {
-                            try Disk.append([movie], to: "favorite.json", in: .applicationSupport)
-                        }
-                    }
-                } catch {
-                    print(error.localizedDescription)
+                
+                let fav = try? Disk.retrieve("favorite.json", from: .applicationSupport, as: [Movie].self)
+                if (fav?.index{ $0.id == movie?.id}) == nil {
+                    movie?.favorited = true
+                    try? Disk.append([movie], to: "favorite.json", in: .applicationSupport)
                 }
                 
             } else {
+                movie?.favorited = true
                 try? Disk.save([movie], to: .applicationSupport, as: "favorite.json")
             }
-
+            self.tableView.reloadRows(at: [indexPath], with: .automatic)
             completionHandler(true)
         })
         
@@ -142,57 +132,63 @@ class MovieListViewController: UITableViewController {
         return configuration
     }
     
+    
     //Slide to delete
     @available(iOS 11.0, *)
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = UIContextualAction(style: .destructive, title: "Delete") { (action, sourceView, completionHandler) in
-            var deleteMovie = self.tableData?[indexPath.row]
+        let delete = UIContextualAction(style: .normal, title: "Unfavorite") { (action, sourceView, completionHandler) in
+            var deleteMovie: Movie?
+            deleteMovie = self.tableData?[indexPath.row]
+            self.tableData?[indexPath.row].favorited = false
             
-            if self.isFiltering() {
-                if let movie = self.filteredMovies?[indexPath.row] {
-                    deleteMovie = movie
-                }
-            }
+            //if self.isFiltering() {
+            //    if (self.filteredMovies?[indexPath.row]) != nil {
+            //        deleteMovie = self.filteredMovies![indexPath.row]
+            //        self.filteredMovies![indexPath.row].favorited = false
+            //        if let index = self.tableData?.index(where: {$0.id == deleteMovie?.id}) {
+            //            self.tableData?[index].favorited = false
+            //        }
+            //    }
+            //    else { return }
+            //}
             if Disk.exists("favorite.json", in: .applicationSupport) {
-                do {
-                    if let movie = deleteMovie{
-                        var retrievedFavorites = try Disk.retrieve("favorite.json", from: .applicationSupport, as: [Movie].self)
-                        let index = retrievedFavorites.index{ $0.title == movie.title}
-                        if let index = index {
-                            retrievedFavorites.remove(at: index)
-                            try Disk.save(retrievedFavorites, to: .applicationSupport, as: "favorite.json")
-                        }
-                    }
-                } catch {
-                    print(error.localizedDescription)
+                
+                var fav = try? Disk.retrieve("favorite.json", from: .applicationSupport, as: [Movie].self)
+                if (fav?.index{ $0.id == deleteMovie?.id}) != nil {
+                    fav?.removeAll{$0.id == deleteMovie?.id }
+                    try? Disk.save(fav, to: .applicationSupport, as: "favorite.json")
+                    self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                    completionHandler(true)
+                } else {
+                    completionHandler(false)
                 }
+            } else {
+                completionHandler(false)
             }
             print("index path of delete: \(indexPath)")
-            completionHandler(true)
         }
-        
+        delete.backgroundColor = UIColor.red
         let swipeActionConfig = UISwipeActionsConfiguration(actions: [delete])
         return swipeActionConfig
     }
-    
     
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
       
-        if isFiltering() {
-            if let index = self.tableView.indexPathForSelectedRow?.row {
-                if let destination = segue.destination as? MovieDetailView {
-                    if let movie = self.filteredMovies?[index] {
-                        destination.setMovie(movie: movie)
-                    }
-                }
-            }
-            return
-        }
+        //if isFiltering() {
+        //    if let index = self.tableView.indexPathForSelectedRow?.row {
+        //        if let destination = segue.destination as? MovieDetailView {
+        //            if let movie = self.filteredMovies?[index] {
+        //                destination.setMovie(movie: movie)
+        //            }
+        //        }
+        //    }
+        //    return
+        //}
 
         if let index = self.tableView.indexPathForSelectedRow?.row,
-            let movie = self.tableData?[index] ?? self.retrievedFavorites?[index]
+            let movie = self.tableData?[index]
         {
             if let destination = segue.destination as? MovieDetailView {
                 destination.setMovie(movie: movie)
@@ -210,37 +206,29 @@ class MovieListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isFiltering() {
-            return filteredMovies?.count ?? 0
-        }
+        //if isFiltering() {
+        //    return filteredMovies?.count ?? 0
+        //}
         
-        if navigationController?.tabBarItem.tag == 0 {
-            return self.tableData?.count ?? 0
-        } else {
-            return retrievedFavorites?.count ?? 0
-        }
+        return self.tableData?.count ?? 0
+        
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: MovieListCell = tableView.dequeueReusableCell(withIdentifier: "MovieListCell", for: indexPath) as! MovieListCell
         
-        if isFiltering() {
-            if let movie = filteredMovies?[indexPath.row] {
+        //if isFiltering() {
+        //    if let movie = filteredMovies?[indexPath.row] {
+        //        showMovieIn(cell: cell, movie: movie)
+        //    }
+        //
+        //} else {
+        
+            if let movie = tableData?[indexPath.row] {
                 showMovieIn(cell: cell, movie: movie)
             }
             
-        } else {
-            if navigationController?.tabBarItem.tag == 0 {
-                if let movie = tableData?[indexPath.row] {
-                    showMovieIn(cell: cell, movie: movie)
-                }
-                
-            } else {
-                if let movie = retrievedFavorites?[indexPath.row] {
-                    showMovieIn(cell: cell, movie: movie)
-                }
-            }
-        }
+        //}
         
         return cell
     }
@@ -253,6 +241,12 @@ class MovieListViewController: UITableViewController {
         cell.coverImageView.image = nil
         if let imageURL = MovieService.smallCoverUrl(movie: movie) {
             cell.coverImageView.load(url: imageURL)
+        }
+        
+        if movie.favorited {
+            cell.backgroundColor = .lightGray
+        } else {
+            cell.backgroundColor = .clear
         }
     }
     
@@ -280,6 +274,4 @@ extension MovieListViewController: MovieListView {
         // TODO: add callback for error!!!
     }
     
-    
 }
-

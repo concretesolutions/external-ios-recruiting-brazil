@@ -55,6 +55,36 @@ class MovieService {
             }
         }
     }
+    
+    static func search(query: String, completion: @escaping (MovieList?)->()) {
+        
+        provider.request(.search(query: query)) { result in
+            switch result {
+            case let .success(response):
+                let movies = MovieList.initWith(data: response.data)
+                completion(movies)
+            case let .failure(error):
+                print(error)
+                // TODO: error handler callback
+                //                completion(nil)
+
+            }
+        }
+    }
+    
+    static func accountStates(movie_id: Int, completion: @escaping (AccountStates?)->()) {
+        provider.request(.accountSates(movie_id: movie_id)) { result in
+            switch result {
+            case let .success(response):
+                let accountStates = AccountStates.initWith(data: response.data)
+                completion(accountStates)
+            case let .failure(error):
+                print(error)
+                // TODO: error handler callback
+                //                completion(nil)
+            }
+        }
+    }
 
     
     static func smallCoverUrl(movie: Movie) -> URL? {

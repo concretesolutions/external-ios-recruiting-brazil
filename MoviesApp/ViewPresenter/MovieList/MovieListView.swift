@@ -14,8 +14,6 @@ class MovieListViewController: UITableViewController {
     var tableData: [Movie]?
     
     let searchController = UISearchController(searchResultsController: nil)
-    //var filteredMovies: [Movie]?
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +39,6 @@ class MovieListViewController: UITableViewController {
         }
         definesPresentationContext = true
         
-        //debugPrint("Popular view did load")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,8 +46,6 @@ class MovieListViewController: UITableViewController {
         
         self.tableView.reloadData()
         
-        
-        //debugPrint("Popular will appear")
         self.presenter.loadGenreAndMovies()
         
         // TODO: add loading view
@@ -58,24 +53,15 @@ class MovieListViewController: UITableViewController {
     }
     
     func searchBarIsEmpty() -> Bool {
-        // Returns true if the text is empty or nil
         return searchController.searchBar.text?.isEmpty ?? true
     }
     
     func filterContentForSearchText (_ searchText: String, scope: String = "All") {
 
-        //            filteredMovies = (tableData?.filter({ (movie: Movie) -> Bool in
-        //                return movie.title.lowercased().contains(searchText.lowercased())
-        //            }))!
-        //            tableView.reloadData()
-
         if !searchText.isEmpty {
-            //self.presenter.isFiltering = true
             self.presenter.movies = nil
             self.presenter.search(query: searchText)
         } else {
-            debugPrint("Search text está vazio")
-            //self.presenter.isFiltering = false
             self.presenter.isLoading = false
             self.presenter.movies = nil
             self.presenter.loadGenre()
@@ -108,9 +94,6 @@ class MovieListViewController: UITableViewController {
         let action = UIContextualAction(style: .normal, title: "Favorite", handler: { (action, view, completionHandler) in
             var movie = self.tableData?[indexPath.row]
             
-            //if self.isFiltering() {
-            //    movie = self.filteredMovies?[indexPath.row]
-            //}
             if Disk.exists("favorite.json", in: .applicationSupport) {
                 
                 let fav = try? Disk.retrieve("favorite.json", from: .applicationSupport, as: [Movie].self)
@@ -141,16 +124,6 @@ class MovieListViewController: UITableViewController {
             deleteMovie = self.tableData?[indexPath.row]
             self.tableData?[indexPath.row].favorited = false
             
-            //if self.isFiltering() {
-            //    if (self.filteredMovies?[indexPath.row]) != nil {
-            //        deleteMovie = self.filteredMovies![indexPath.row]
-            //        self.filteredMovies![indexPath.row].favorited = false
-            //        if let index = self.tableData?.index(where: {$0.id == deleteMovie?.id}) {
-            //            self.tableData?[index].favorited = false
-            //        }
-            //    }
-            //    else { return }
-            //}
             if Disk.exists("favorite.json", in: .applicationSupport) {
                 
                 var fav = try? Disk.retrieve("favorite.json", from: .applicationSupport, as: [Movie].self)
@@ -176,17 +149,6 @@ class MovieListViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
       
-        //if isFiltering() {
-        //    if let index = self.tableView.indexPathForSelectedRow?.row {
-        //        if let destination = segue.destination as? MovieDetailView {
-        //            if let movie = self.filteredMovies?[index] {
-        //                destination.setMovie(movie: movie)
-        //            }
-        //        }
-        //    }
-        //    return
-        //}
-
         if let index = self.tableView.indexPathForSelectedRow?.row,
             let movie = self.tableData?[index]
         {
@@ -206,10 +168,6 @@ class MovieListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //if isFiltering() {
-        //    return filteredMovies?.count ?? 0
-        //}
-        
         return self.tableData?.count ?? 0
         
     }
@@ -217,19 +175,10 @@ class MovieListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: MovieListCell = tableView.dequeueReusableCell(withIdentifier: "MovieListCell", for: indexPath) as! MovieListCell
         
-        //if isFiltering() {
-        //    if let movie = filteredMovies?[indexPath.row] {
-        //        showMovieIn(cell: cell, movie: movie)
-        //    }
-        //
-        //} else {
-        
-            if let movie = tableData?[indexPath.row] {
-                showMovieIn(cell: cell, movie: movie)
-            }
+        if let movie = tableData?[indexPath.row] {
+            showMovieIn(cell: cell, movie: movie)
+        }
             
-        //}
-        
         return cell
     }
     

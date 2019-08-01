@@ -55,7 +55,6 @@ class MovieDetailViewController: UIViewController {
     @objc func addTapped() {
         
         if Disk.exists("favorite.json", in: .applicationSupport) {
-            
             var fav = try? Disk.retrieve("favorite.json", from: .applicationSupport, as: [Movie].self)
             if (fav?.index{ $0.id == self.presenter.movie.id}) != nil {
                 fav?.removeAll{$0.id == self.presenter.movie.id}
@@ -63,22 +62,6 @@ class MovieDetailViewController: UIViewController {
             } else {
                 try? Disk.append([self.presenter.movie], to: "favorite.json", in: .applicationSupport)
             }
-            
-            
-            //if the movie exists has to be deleted else has to be saved
-//            do {
-//                var retrievedFavorites = try Disk.retrieve("favorite.json", from: .applicationSupport, as: [Movie].self)
-//                let index = retrievedFavorites.index{ $0.title == self.presenter.movie.title}
-//                if let index = index {
-//                    retrievedFavorites.remove(at: index)
-//                    try Disk.save(retrievedFavorites, to: .applicationSupport, as: "favorite.json")
-//                }
-//                else {
-//                    try Disk.append([self.presenter.movie], to: "favorite.json", in: .applicationSupport)
-//                }
-//            } catch {
-//                print(error.localizedDescription)
-//            }
         } else {
             try? Disk.save([self.presenter.movie], to: .applicationSupport, as: "favorite.json")
         }
@@ -87,16 +70,6 @@ class MovieDetailViewController: UIViewController {
         
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension MovieDetailViewController: MovieDetailView {

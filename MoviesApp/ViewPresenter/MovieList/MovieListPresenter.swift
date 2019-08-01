@@ -30,7 +30,6 @@ class MovieListPresenter {
     
     func loadGenre() {
         MovieService.genre { (genreList) in
-            print("Genre List Loaded ", genreList?.genres.count as Any)
             if genreList != nil {
                 GenreList.setGenreList(genre: genreList!)
             }
@@ -43,10 +42,7 @@ class MovieListPresenter {
         if self.isLoading { return }
         self.isLoading = true
         
-        print("loadDataFromPage ", page)
-        
         MovieService.popular(page: page) { movieList in
-            //debugPrint("Movies Page Loaded ", page)
             
             if movieList != nil {
                 self.setMovieList(newList: movieList!)
@@ -66,10 +62,8 @@ class MovieListPresenter {
     func setMovieList(newList: MovieList) {
         self.lastMovieList = newList
         if self.movies == nil || self.isFiltering {
-            debugPrint("Passo x")
             self.movies = newList.results
         }else{
-            debugPrint("Passo y")
             self.movies!.append(contentsOf: newList.results)
         }
         self.view?.finishLoading(movies: self.movies!)
@@ -88,11 +82,9 @@ class MovieListPresenter {
     
     func search(query: String) {
         MovieService.search(query: query) { movieList in
-            //debugPrint("Movies Page Loaded ", page)
             
             if movieList != nil {
                 self.setMovieList(newList: movieList!)
-                //self.currentPage = page
             }
             
             self.isLoading = false

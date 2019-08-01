@@ -36,9 +36,6 @@ class FavoriteListViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        
-        debugPrint("Loading favorite movies")
-        
         do {
             
             retrievedFavorites = try Disk.retrieve("favorite.json", from: .applicationSupport, as: [Movie].self)
@@ -166,7 +163,6 @@ class FavoriteListViewController: UITableViewController {
             } else {
                 completionHandler(false)
             }
-            print("index path of delete: \(indexPath)")
         }
         let swipeActionConfig = UISwipeActionsConfiguration(actions: [delete])
         return swipeActionConfig

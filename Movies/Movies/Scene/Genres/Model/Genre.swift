@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Genres: Codable {
+ struct Genre: Codable {
     let genreId: Int64
     let name: String?
     

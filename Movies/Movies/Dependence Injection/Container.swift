@@ -11,5 +11,11 @@ import Foundation
 extension AppDelegate {
     func registerData() {
         container.register(ServiceClient.self) { _ in ServiceClient() }
+        
+        container.register(MovieRemote.self) { _ in MovieRemote() }
+        container.register(MovieRepository.self) { _ in MovieRepository() }
+        
+        container.register(GenreRemote.self) { _ in GenreRemote() }
+        container.register(GenreRepository.self) {_ in GenreRepository() }
     }
 }

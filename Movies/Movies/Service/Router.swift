@@ -14,22 +14,36 @@ import Alamofire
 enum Router: URLRequestConvertible {
     
     case getMovieList(page: Int?)
-    
+    case getGenres
+  
     var baseUrl : String {
-        return "https://api.themoviedb.org/3/"
+        switch self {
+        case .getGenres, .getMovieList:
+            return "https://api.themoviedb.org/3/"
+        }
     }
     
     var apiKey: String {
         return "07df8c9da251d396ca8e52a42b21dfcd"
     }
     
+    var language: String {
+        return "Pt-BR"
+    }
+    
     var path : String {
-        return "movie/top_rated/"
+        switch self {
+        case .getMovieList:
+            return "movie/top_rated/"
+
+        case .getGenres:
+            return "genre/movie/list/"
+        }
     }
     
     var method: HTTPMethod {
         switch self {
-        case .getMovieList:
+        case .getMovieList, .getGenres:
             return .get
         }
     }
@@ -37,10 +51,17 @@ enum Router: URLRequestConvertible {
     var parameters: [String:Any]? {
         var parameters: [String: Any] = [:]
         parameters["apiKey"] = self.apiKey
+        parameters["language"] = self.language
+        
         switch self {
         case .getMovieList(let page):
             parameters["page"] = page ?? 0
             return parameters
+            
+        case .getGenres:
+            return parameters
+            
+
         }
     }
     
@@ -62,6 +83,5 @@ enum Router: URLRequestConvertible {
         let request = try URLEncoding.default.encode(urlRequest, with: parameters)
         return request
     }
-    
     
 }

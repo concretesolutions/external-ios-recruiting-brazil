@@ -1,5 +1,5 @@
 //
-//  MovieRepository.swift
+//  GenreRepository.swift
 //  Movies
 //
 //  Created by Alexandre Thadeu on 02/08/19.
@@ -9,17 +9,16 @@
 import Foundation
 import Swinject
 
-struct MovieRepository {
-    typealias getMovieResult = RepositoryResult<[Movie], Event>
-    typealias getMovieCompletion = (_ result: getMovieResult) -> Void
+class GenreRepository {
+    typealias getGenresResult = RepositoryResult<[Genre], Event>
+    typealias getGenresCompletion = (_ result: getGenresResult) -> Void
+    private let genreRemote = Container().resolve(GenreRemote.self)!
     
-    private let moviewRemote = Container().resolve(MovieRemote.self)!
-    
-    func getMoviesList(page: Int?, completion: @escaping getMovieCompletion) {
-        moviewRemote.getMoviesList(page: page, completion: { result in
+    func getGenres(completion: @escaping getGenresCompletion) {
+        genreRemote.getGenres(completion: { result in
             switch result {
-            case .success(payload: let movies):
-                completion(.success(payload: movies))
+            case .success(payload: let genres):
+                completion(.success(payload: genres))
             case .failure(.unAuthorized?):
                 completion(.failure(event: .error(message: ErrorConstant.unAuthorized.rawValue)))
             case .failure(.notFound?):

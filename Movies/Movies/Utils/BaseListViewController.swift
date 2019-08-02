@@ -16,15 +16,39 @@ class BaseListViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func setupNavBar() {
+        self.tabBarController?.navigationController?.navigationBar.prefersLargeTitles = true
+        
+        
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Buscar"
+        
+        
+         self.tabBarController?.navigationItem.searchController = searchController
+         self.tabBarController?.navigationController?.navigationBar.barTintColor = .white
+        
     }
-    */
+    
+    func setTitle(title: String) {
+        self.tabBarController?.navigationItem.title = title
+    }
 
+
+}
+extension BaseListViewController: UISearchBarDelegate, UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        //self.baseViewModel.searchText?.value = searchText
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.navigationItem.searchController?.searchBar.text = ""
+        //self.baseViewModel.searchText?.value = ""
+    }
 }

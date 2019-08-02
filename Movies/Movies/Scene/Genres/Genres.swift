@@ -7,3 +7,13 @@
 //
 
 import Foundation
+
+struct Genres: Codable {
+    let genreId: Int64
+    let name: String?
+    
+    private enum CodingKeys: String, CodingKey {
+        case genreId = "id"
+        case name
+    }
+}

@@ -7,3 +7,9 @@
 //
 
 import Foundation
+
+extension AppDelegate {
+    func registerData() {
+        container.register(ServiceClient.self) { _ in ServiceClient() }
+    }
+}

@@ -7,3 +7,12 @@
 //
 
 import Foundation
+
+import Foundation
+import Alamofire
+
+class NetworkState {
+    class func isConnected() ->Bool {
+        return NetworkReachabilityManager()!.isReachable
+    }
+}

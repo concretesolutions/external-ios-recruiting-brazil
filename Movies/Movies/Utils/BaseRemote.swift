@@ -7,3 +7,12 @@
 //
 
 import Foundation
+
+class BaseRemote {
+    enum failureReason: Int, Error {
+        case unAuthorized   = 401
+        case notFound       = 404
+        case badRequest     = 400
+        case noNetwork      = 0
+    }
+}

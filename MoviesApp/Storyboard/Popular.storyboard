@@ -93,6 +93,9 @@
                             </connections>
                         </textField>
                     </navigationItem>
+                    <connections>
+                        <segue destination="SMA-gS-Yir" kind="show" identifier="MovieContentDetail" id="OTt-rW-0yN"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="exL-dn-PUR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -146,4 +149,7 @@
             <point key="canvasLocation" x="553" y="701"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="OTt-rW-0yN"/>
+    </inferredMetricsTieBreakers>
 </document>

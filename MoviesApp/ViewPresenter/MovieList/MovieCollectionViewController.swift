@@ -7,9 +7,13 @@
 //
 
 import UIKit
+import Disk
 
 
 class MovieCollectionViewController: UICollectionViewController {
+    
+    //var indexPathCell: IndexPath?
+    
     
     private let presenter = MovieListPresenter()
     
@@ -21,13 +25,6 @@ class MovieCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Register cell classes
-        //self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        //self.collectionView?.register(UINib(nibName: "MovieListCell", bundle: nil), forCellWithReuseIdentifier: "MovieListCell")
 
         self.presenter.setView(view: self)
         
@@ -43,15 +40,50 @@ class MovieCollectionViewController: UICollectionViewController {
         self.presenter.loadGenreAndMovies()
     }
     
-    /*
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        self.performSegue(withIdentifier: "MovieContentDetail", sender: indexPath)
+
+    }
+    
+    
+    @IBAction func favButtonTapped(sender: UIButton) -> Void {
+        let index = sender.tag
+        if let movie = self.tableData?[index] {
+            print("The movie selecionado: \(movie.title)")
+            if Disk.exists("favorite.json", in: .applicationSupport) {
+                var fav = try? Disk.retrieve("favorite.json", from: .applicationSupport, as: [Movie].self)
+                if (fav?.index{ $0.id == movie.id}) != nil {
+                    fav?.removeAll{$0.id == movie.id}
+                    try? Disk.save(fav, to: .applicationSupport, as: "favorite.json")
+                } else {
+                    try? Disk.append([movie], to: "favorite.json", in: .applicationSupport)
+                }
+            } else {
+                try? Disk.save([movie], to: .applicationSupport, as: "favorite.json")
+            }
+        }
+        self.collectionView?.reloadData()
+    }
+    
+    
+    
+    
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+        
+        if let index = sender as? NSIndexPath {
+            print("Index \(index)")
+            if let movie = self.tableData?[index.item] {
+                print("Movie Segue: \(movie.title)")
+                if let destination = segue.destination as? MovieDetailView {
+                    destination.setMovie(movie: movie)
+                }
+            }
+        }
     }
-    */
+    
 
     // MARK: UICollectionViewDataSource
 
@@ -67,21 +99,32 @@ class MovieCollectionViewController: UICollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        //let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PopularGridCell", for: indexPath) as! MovieCollectionCell
-        // Configure the cell
         
-        if let movie = tableData?[indexPath.row] {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PopularGridCell", for: indexPath) as! MovieCollectionCell
+        let favButton = UIButton(frame: CGRect(x: 142, y: 140, width: 40, height: 40))
+        
+        favButton.addTarget(self, action: #selector(favButtonTapped), for: UIControlEvents.touchUpInside)
+        favButton.tag = indexPath.item
+        favButton.isUserInteractionEnabled = true
+        
+        cell.addSubview(favButton)
+
+        // print statments shows that the movies are favorited corrected in the file but the cells are shown incorrectly
+        if let movie = tableData?[indexPath.item] {
             cell.movieLabel.text = movie.title
-//            cell.dateLabel.text = movie.localizedReleaseDate
-//            cell.genreLabel.text = movie.genresString
-            
             cell.movieImageView.image = nil
+            if movie.favorited {
+                //print("Favorite movie saved \(movie.title)")
+                favButton.setImage(UIImage(named: favIcon.favorite), for: UIControlState.normal)
+            } else {
+                favButton.setImage(UIImage(named: favIcon.unfavorite), for: UIControlState.normal)
+            }
+
             if let imageURL = MovieService.smallCoverUrl(movie: movie) {
                 cell.movieImageView.load(url: imageURL)
             }
-            
         }
+        
         return cell
     }
 

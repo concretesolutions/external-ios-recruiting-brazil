@@ -177,18 +177,7 @@ class FavoriteListViewController: UITableViewController {
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-//        if isFiltering() {
-//            if let index = self.tableView.indexPathForSelectedRow?.row {
-//                if let destination = segue.destination as? MovieDetailView {
-//                    if let movie = self.filteredMovies?[index] {
-//                        destination.setMovie(movie: movie)
-//                    }
-//                }
-//            }
-//            return
-//        }
-        
+                
         if let index = self.tableView.indexPathForSelectedRow?.row,
             //let movie = self.tableData?[index] ?? self.retrievedFavorites?[index]
             let movie = self.retrievedFavorites?[index]

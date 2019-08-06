@@ -81,18 +81,7 @@
                             <outlet property="delegate" destination="MqU-Av-ksx" id="rqu-w0-LvL"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" title="Popular" id="22L-DJ-873">
-                        <textField key="titleView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Buscar um filme" textAlignment="natural" minimumFontSize="17" id="WPt-rl-f01">
-                            <rect key="frame" x="125" y="7" width="125" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <nil key="textColor"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits" returnKeyType="search"/>
-                            <connections>
-                                <outlet property="delegate" destination="MqU-Av-ksx" id="bbq-Sw-dyu"/>
-                            </connections>
-                        </textField>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Popular" id="22L-DJ-873"/>
                     <connections>
                         <segue destination="SMA-gS-Yir" kind="show" identifier="MovieContentDetail" id="OTt-rW-0yN"/>
                     </connections>

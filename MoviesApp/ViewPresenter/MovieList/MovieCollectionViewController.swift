@@ -23,6 +23,8 @@ class MovieCollectionViewController: UICollectionViewController {
     
     var tableData: [Movie]?
     
+    let searchController = UISearchController(searchResultsController: nil)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,6 +32,22 @@ class MovieCollectionViewController: UICollectionViewController {
         
         self.collectionView?.delegate = self
         self.collectionView?.dataSource = self
+        
+        searchController.searchResultsUpdater = self
+        if #available(iOS 9.1, *) {
+            searchController.obscuresBackgroundDuringPresentation = false
+        } else {
+            // Fallback on earlier versions
+        }
+        searchController.searchBar.placeholder = "Buscar um filme"
+        searchController.searchBar.sizeToFit()
+        searchController.searchBar.becomeFirstResponder()
+        if #available(iOS 11.0, *) {
+            navigationItem.searchController = searchController
+        } else {
+            // Fallback on earlier versions
+        }
+        definesPresentationContext = true
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -47,10 +65,35 @@ class MovieCollectionViewController: UICollectionViewController {
     }
     
     
+    // MARK: SearchController
+    
+    func searchBarIsEmpty() -> Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func filterContentForSearchText (_ searchText: String, scope: String = "All") {
+        
+        if !searchText.isEmpty {
+            self.presenter.movies = nil
+            self.presenter.search(query: searchText)
+        } else {
+            self.presenter.isLoading = false
+            self.presenter.movies = nil
+            self.presenter.loadGenre()
+            
+        }
+        
+    }
+    
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
+    
+    
+    // MARK: Button Actions
     @IBAction func favButtonTapped(sender: UIButton) -> Void {
         let index = sender.tag
         if let movie = self.tableData?[index] {
-            print("The movie selecionado: \(movie.title)")
             if Disk.exists("favorite.json", in: .applicationSupport) {
                 var fav = try? Disk.retrieve("favorite.json", from: .applicationSupport, as: [Movie].self)
                 if (fav?.index{ $0.id == movie.id}) != nil {
@@ -63,26 +106,21 @@ class MovieCollectionViewController: UICollectionViewController {
                 try? Disk.save([movie], to: .applicationSupport, as: "favorite.json")
             }
         }
-        self.collectionView?.reloadData()
+        self.collectionView?.reloadData()       
     }
-    
-    
-    
     
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if let index = sender as? NSIndexPath {
-            print("Index \(index)")
-            if let movie = self.tableData?[index.item] {
-                print("Movie Segue: \(movie.title)")
-                if let destination = segue.destination as? MovieDetailView {
-                    destination.setMovie(movie: movie)
-                }
+        if let index = sender as? NSIndexPath,
+            let movie = self.tableData?[index.item],
+            let destination = segue.destination as? MovieDetailView  {
+                destination.setMovie(movie: movie)
             }
-        }
     }
+    
+    
     
 
     // MARK: UICollectionViewDataSource
@@ -109,7 +147,7 @@ class MovieCollectionViewController: UICollectionViewController {
         
         cell.addSubview(favButton)
 
-        // print statments shows that the movies are favorited corrected in the file but the cells are shown incorrectly
+        // print statments shows that the movies are favorited correctly in the file but the cells are shown incorrectly. Possible XCode bug
         if let movie = tableData?[indexPath.item] {
             cell.movieLabel.text = movie.title
             cell.movieImageView.image = nil
@@ -164,4 +202,12 @@ extension MovieCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return sectionInsets.left
     }
+}
+
+extension MovieCollectionViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+    
+    
 }

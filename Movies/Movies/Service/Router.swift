@@ -24,7 +24,7 @@ enum Router: URLRequestConvertible {
     }
     
     var apiKey: String {
-        return "07df8c9da251d396ca8e52a42b21dfcd"
+        return "37d31119cfbe80b2c7ef01cf3735ea2b"
     }
     
     var language: String {
@@ -37,7 +37,7 @@ enum Router: URLRequestConvertible {
             return "movie/top_rated/"
 
         case .getGenres:
-            return "genre/movie/list/"
+            return "genre/movie/list"
         }
     }
     
@@ -50,12 +50,12 @@ enum Router: URLRequestConvertible {
     
     var parameters: [String:Any]? {
         var parameters: [String: Any] = [:]
-        parameters["apiKey"] = self.apiKey
+        parameters["api_key"] = self.apiKey
         parameters["language"] = self.language
         
         switch self {
         case .getMovieList(let page):
-            parameters["page"] = page ?? 0
+            parameters["page"] = page ?? 1
             return parameters
             
         case .getGenres:

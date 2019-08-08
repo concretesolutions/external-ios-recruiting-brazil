@@ -19,20 +19,34 @@ class ServiceClient: BaseRemote {
                 .validate()
                 .responseJSON { response  in
                     self.logRequestAndResponse(request: response.request, response: response.response)
-                    
                     switch response.result  {
                     case .success:
-                        guard let data = response.data else {
-                            
-                            if let statusCode = response.response?.statusCode, statusCode >= 200 &&  statusCode < 300 {
-                                let data = Data(count: 1)
-                                completion(.success(payload: data))
+                        switch router {
+                        case .getGenres:
+                            if let JSON = response.result.value {
+                                if let json = JSON as? [String: Any], let results = json["genres"] {
+                                    do {
+                                        let data = try JSONSerialization.data(withJSONObject:results)
+                                        completion(.success(payload: data))
+                                    } catch {
+                                        completion(.failure(nil))
+                                    }
+                                }
                             }
-                            
-                            completion(.failure(nil))
-                            return
+                        case .getMovieList:
+                            if let JSON = response.result.value {
+                                if let json = JSON as? [String: Any], let results = json["results"] {
+                                    do {
+                                        let data = try JSONSerialization.data(withJSONObject:results)
+                                        completion(.success(payload: data))
+                                    } catch {
+                                        completion(.failure(nil))
+                                    }
+                                }
+                            }
                         }
-                        completion(.success(payload: data))
+                       
+                       
                         
                     case .failure(_):
                         if let statusCode = response.response?.statusCode, let reason = failureReason(rawValue: statusCode) {

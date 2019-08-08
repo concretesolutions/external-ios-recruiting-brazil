@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="0FX-TD-Uca">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Splash View Controller-->
+        <scene sceneID="Zz5-bS-wYo">
+            <objects>
+                <viewController id="0FX-TD-Uca" customClass="SplashViewController" customModule="Movies" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="JbD-o9-8o9">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash" translatesAutoresizingMaskIntoConstraints="NO" id="wE6-65-286">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.96862745100000003" green="0.80784313730000001" blue="0.35686274509999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="wE6-65-286" firstAttribute="leading" secondItem="JbD-o9-8o9" secondAttribute="leading" id="Wah-Wf-wzO"/>
+                            <constraint firstAttribute="trailing" secondItem="wE6-65-286" secondAttribute="trailing" id="oW7-lS-qNY"/>
+                            <constraint firstItem="wE6-65-286" firstAttribute="top" secondItem="JbD-o9-8o9" secondAttribute="top" id="s4L-ML-ofX"/>
+                            <constraint firstAttribute="bottom" secondItem="wE6-65-286" secondAttribute="bottom" id="tLk-GK-JS8"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="3sR-tq-WhM"/>
+                    </view>
+                    <connections>
+                        <segue destination="YIj-47-odR" kind="presentation" identifier="goToMovies" id="pE2-K8-Cpp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SDJ-si-z8D" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="53" y="375"/>
+        </scene>
+        <!--Movies-->
+        <scene sceneID="dwZ-Np-2iF">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Movies" id="YIj-47-odR" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vgd-mA-GJk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="743" y="375"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Splash" width="375" height="667"/>
+    </resources>
+</document>

@@ -9,7 +9,7 @@
 import Foundation
 
 struct Movie: Codable {
-    var movieId: Int
+    var movieId: Int64
     var voteCount: Int?
     var video: Bool?
     var voteAverage: Float?
@@ -33,11 +33,13 @@ struct Movie: Codable {
         case originalLanguage   = "original_language"
         case originalTitle      = "original_title"
         case posterPath         = "poster_path"
-        case genresId           = "genres_id"
-        case overview
+        case genresId           = "genre_ids"
+        case overview           = "overview"
         case adult
         case backdropPath       = "backdrop_path"
         case releaseDate        = "release_date"
+        case video
     }
+    
 
 }

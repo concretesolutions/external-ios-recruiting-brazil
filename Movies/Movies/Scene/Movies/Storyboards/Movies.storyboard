@@ -48,7 +48,6 @@
         <!--Filmes-->
         <scene sceneID="VJh-99-R3M">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Llw-FW-PXr" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController title="Filmes" id="H3h-7t-J09" customClass="MoviesListViewController" customModule="Movies" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Hsf-F6-EcZ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
@@ -58,10 +57,10 @@
                                 <rect key="frame" x="0.0" y="140" width="414" height="673"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="7Ol-Qk-gBu">
-                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="itemSize" width="300" height="370"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="10"/>
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
@@ -76,14 +75,18 @@
                         <viewLayoutGuide key="safeArea" id="z3F-81-FSZ"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Filmes" image="list_icon" id="vYC-k3-8IQ"/>
+                    <connections>
+                        <outlet property="collectionView" destination="n4D-TC-2Ek" id="nQI-4H-cc9"/>
+                    </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Llw-FW-PXr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1367" y="-228"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="NE1-Rc-ZdY">
             <objects>
-                <navigationController id="Rar-oK-dHX" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="movieNavigationController" id="Rar-oK-dHX" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="5wS-ty-fj9">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -94,12 +97,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fpu-zZ-ltJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-584" y="121"/>
+            <point key="canvasLocation" x="-661" y="121"/>
         </scene>
         <!--MovieBase-->
         <scene sceneID="FVa-3a-VLr">
             <objects>
-                <tabBarController title="MovieBase" id="76c-4A-DYP" customClass="MovieTabBarViewController" customModule="Movies" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="moviesTabBar" title="MovieBase" id="76c-4A-DYP" customClass="MovieTabBarViewController" customModule="Movies" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="Ljc-dI-eB1"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="WJF-50-CJb">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>

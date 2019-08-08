@@ -7,17 +7,34 @@
 //
 
 import Foundation
-import Swinject
 
 class GenreRepository {
     typealias getGenresResult = RepositoryResult<[Genre], Event>
     typealias getGenresCompletion = (_ result: getGenresResult) -> Void
-    private let genreRemote = Container().resolve(GenreRemote.self)!
+    
+    private let genreRemote =  SwinjectContainer.container.resolve(GenreRemote.self)!
+    private let genreLocal  =  SwinjectContainer.container.resolve(GenreLocal.self)!
     
     func getGenres(completion: @escaping getGenresCompletion) {
+        
+        do {
+            let genres = try genreLocal.fetchGenres()
+            if genres.count > 0 {
+                completion(.success(payload: genres))
+            }
+        } catch let error {
+            NSLog("Não foi possível trazer os genêros localmente: \(error.localizedDescription)")
+
+        }
+        
         genreRemote.getGenres(completion: { result in
             switch result {
             case .success(payload: let genres):
+                do {
+                    try self.genreLocal.insertGenres(genres: genres)
+                } catch let error {
+                    NSLog("Não foi possível salvar os genêros localmente: \(error.localizedDescription)")
+                }
                 completion(.success(payload: genres))
             case .failure(.unAuthorized?):
                 completion(.failure(event: .error(message: ErrorConstant.unAuthorized.rawValue)))

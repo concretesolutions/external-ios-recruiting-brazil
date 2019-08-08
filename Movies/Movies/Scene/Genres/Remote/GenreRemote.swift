@@ -7,12 +7,11 @@
 //
 
 import Foundation
-import Swinject
 
 class GenreRemote: BaseRemote {
     typealias getGenresResult = Result<[Genre], failureReason>
     typealias getGenresCompletion = (_ result: getGenresResult) -> Void
-    private let serviceClient = Container().resolve(ServiceClient.self)!
+    private let serviceClient =  SwinjectContainer.container.resolve(ServiceClient.self)!
     
     func getGenres(completion: @escaping getGenresCompletion) {
         serviceClient.doRequest(router: .getGenres, completion: { result in

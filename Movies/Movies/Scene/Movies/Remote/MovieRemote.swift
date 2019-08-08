@@ -7,12 +7,11 @@
 //
 
 import Foundation
-import Swinject
 
 class MovieRemote: BaseRemote {
     typealias getMoviesResult = Result<[Movie], failureReason>
     typealias getMoviesCompletion = (_ result: getMoviesResult) -> Void
-    private let serviceClient = Container().resolve(ServiceClient.self)!
+    private let serviceClient = SwinjectContainer.container.resolve(ServiceClient.self)!
     
     func getMoviesList(page: Int? = 0, completion: @escaping getMoviesCompletion) {
         serviceClient.doRequest(router: .getMovieList(page: page), completion: { result in
@@ -22,7 +21,8 @@ class MovieRemote: BaseRemote {
                 do {
                     let movies = try [Movie].decode(data: data)
                     completion(.success(payload: movies))
-                } catch {
+                } catch let error {
+                    NSLog("erro ao tentar deslerealizar o JSON de Movies: %@", error.localizedDescription)
                     completion(.failure(nil))
                 }
                 

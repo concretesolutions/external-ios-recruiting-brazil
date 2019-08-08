@@ -7,16 +7,16 @@
 //
 
 import Foundation
-import Swinject
 
 struct MovieRepository {
     typealias getMovieResult = RepositoryResult<[Movie], Event>
     typealias getMovieCompletion = (_ result: getMovieResult) -> Void
     
-    private let moviewRemote = Container().resolve(MovieRemote.self)!
+    private let movieRemote =  SwinjectContainer.container.resolve(MovieRemote.self)!
+    private let movieLocal  =  SwinjectContainer.container.resolve(MovieLocal.self)!
     
     func getMoviesList(page: Int?, completion: @escaping getMovieCompletion) {
-        moviewRemote.getMoviesList(page: page, completion: { result in
+        movieRemote.getMoviesList(page: page, completion: { result in
             switch result {
             case .success(payload: let movies):
                 completion(.success(payload: movies))
@@ -30,5 +30,18 @@ struct MovieRepository {
                 completion(.failure(event: .error(message: ErrorConstant.noNetwork.rawValue)))
             }
         })
+    }
+    
+    func getFavouriteMovies(completion: @escaping getMovieCompletion) {
+        do {
+            let movies = try movieLocal.fetchMovies()
+            if movies.count > 0 {
+                completion(.success(payload: movies))
+            } else {
+                completion(.failure(event: .empty(message: "Não há filmes favoritados.")))
+            }
+        } catch let error {
+            completion(.failure(event: .error(message: error.localizedDescription)))
+        }
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZZA-TV-A53">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,20 +10,60 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--Favorites-->
+        <scene sceneID="map-61-cpx">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="movieApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                <viewController id="oNL-th-82U" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4V5-bl-JgI">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="BIv-Zb-qhf"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Favorites" image="favorite_empty_icon.png" id="zfE-FL-WkM"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TRf-V4-DE0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="131.8840579710145" y="97.767857142857139"/>
+            <point key="canvasLocation" x="267" y="-257"/>
+        </scene>
+        <!--Movies-->
+        <scene sceneID="Dys-bI-g4M">
+            <objects>
+                <viewController id="NXt-oq-jHz" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="TPz-Sx-XWX">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.96862745100000003" green="0.80784313730000001" blue="0.35686274509999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="6Mt-06-pQT"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Movies" image="list_icon.png" id="8fU-46-T81"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zan-ac-Bfh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="266.66666666666669" y="-906.02678571428567"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="h0b-8e-PPQ">
+            <objects>
+                <tabBarController id="ZZA-TV-A53" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="tuL-HX-jyr">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="NXt-oq-jHz" kind="relationship" relationship="viewControllers" id="oBI-6E-XUl"/>
+                        <segue destination="oNL-th-82U" kind="relationship" relationship="viewControllers" id="kEP-b1-huI"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Z99-S3-Edh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-650" y="-583"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="favorite_empty_icon.png" width="22" height="21"/>
+        <image name="list_icon.png" width="18" height="10"/>
+    </resources>
 </document>

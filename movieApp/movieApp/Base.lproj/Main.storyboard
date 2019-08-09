@@ -42,10 +42,10 @@
             </objects>
             <point key="canvasLocation" x="266.66666666666669" y="-906.02678571428567"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--View-->
         <scene sceneID="h0b-8e-PPQ">
             <objects>
-                <tabBarController id="ZZA-TV-A53" sceneMemberID="viewController">
+                <tabBarController id="ZZA-TV-A53" userLabel="View" customClass="ViewController" customModule="movieApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="tuL-HX-jyr">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>

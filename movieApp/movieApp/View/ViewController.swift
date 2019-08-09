@@ -17,11 +17,12 @@ class ViewController: UITabBarController {
         
         //Teste Moya
         let provider = MoyaProvider<MovieDB>()
-        provider.request(.showMovies) { result in
+        provider.request(.showPopularMovies) { result in
             switch result {
             case .success(let response):
                 do {
-                    print(try response.mapJSON())
+                    let resultsArray = try response.mapJSON()
+                    print(resultsArray)
                 } catch {
                     print("erro")
                 }

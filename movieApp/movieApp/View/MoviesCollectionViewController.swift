@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Moya
 
 private let reuseIdentifier = "MovieCell"
 private let itemsPerRow: CGFloat = 2
@@ -14,6 +15,7 @@ private let sectionInsets = UIEdgeInsets(top: 50.0,
                                          left: 20.0,
                                          bottom: 50.0,
                                          right: 20.0)
+private var movieList: MovieList?
 
 class MoviesCollectionViewController: UICollectionViewController {
 
@@ -23,20 +25,30 @@ class MoviesCollectionViewController: UICollectionViewController {
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
-
-        // Do any additional setup after loading the view.
-        
+        loadMoviesData()
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+    
+    ///Request information from MovieDB
+    func loadMoviesData() {
+        let provider = MoyaProvider<MovieDB>()
+        provider.request(.showPopularMovies) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase //Convert JSON snake cases to variable camel case
+                    
+                    print(response.data)
+                    movieList = try decoder.decode(MovieList.self, from: response.data)
+                    self.collectionView.reloadData()
+                } catch {
+                    print("erro")
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
-    */
 
     // MARK: UICollectionViewDataSource
 
@@ -48,14 +60,14 @@ class MoviesCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 20
+        return movieList?.results.count ?? 2
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MoviesCollectionViewCell
         // Configure the cell
         cell.backgroundColor = .black
-        cell.movieTitle.text = "FILME"
+        cell.movieTitle.text = movieList?.results[indexPath.row].title
         return cell
     }
 

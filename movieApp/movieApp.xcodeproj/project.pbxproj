@@ -38,6 +38,7 @@
 		CC0F34D422FBCC2F00F518E1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC0F34D222FBCC2F00F518E1 /* LaunchScreen.storyboard */; };
 		CC29922122FDB8DE00E7BD70 /* MoviesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC29922022FDB8DE00E7BD70 /* MoviesCollectionViewController.swift */; };
 		CC29922322FDC1BE00E7BD70 /* MoviesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC29922222FDC1BE00E7BD70 /* MoviesCollectionViewCell.swift */; };
+		CC29922522FDE02300E7BD70 /* MovieList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC29922422FDE02300E7BD70 /* MovieList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -75,6 +76,7 @@
 		CC0F34D522FBCC2F00F518E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CC29922022FDB8DE00E7BD70 /* MoviesCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesCollectionViewController.swift; sourceTree = "<group>"; };
 		CC29922222FDC1BE00E7BD70 /* MoviesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesCollectionViewCell.swift; sourceTree = "<group>"; };
+		CC29922422FDE02300E7BD70 /* MovieList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieList.swift; sourceTree = "<group>"; };
 		DDF2F1C68DEA485B1D75FA31 /* Pods_movieApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_movieApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -131,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				CC0EB1DF22FCF6620019D462 /* Movie.swift */,
+				CC29922422FDE02300E7BD70 /* MovieList.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 				CC29922322FDC1BE00E7BD70 /* MoviesCollectionViewCell.swift in Sources */,
 				CC0EB1E322FD31AD0019D462 /* MovieDB.swift in Sources */,
 				CC0EB1E022FCF6620019D462 /* Movie.swift in Sources */,
+				CC29922522FDE02300E7BD70 /* MovieList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

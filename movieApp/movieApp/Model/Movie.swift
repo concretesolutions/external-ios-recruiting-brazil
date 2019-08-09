@@ -8,16 +8,10 @@
 
 import Foundation
 
-class Movie {
-    let name: String
-    let year: Int
-    let genreIDs: [Int]
+struct Movie: Decodable {
+    let title: String
+    let releaseDate: String
+    let genreIds: [Int]
     let overview: String
     
-    init(name: String, year: Int, genreIDs: [Int], overview: String) {
-        self.name = name
-        self.year = year
-        self.genreIDs = genreIDs
-        self.overview = overview
-    }
 }

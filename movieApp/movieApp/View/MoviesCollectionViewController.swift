@@ -17,6 +17,11 @@ private let sectionInsets = UIEdgeInsets(top: 50.0,
                                          right: 20.0)
 private var movieList: MovieList?
 
+enum ExceptionType {
+    case emptySearch
+    case genericError
+}
+
 class MoviesCollectionViewController: UICollectionViewController {
 
     override func viewDidLoad() {
@@ -38,15 +43,25 @@ class MoviesCollectionViewController: UICollectionViewController {
                     let decoder = JSONDecoder()
                     decoder.keyDecodingStrategy = .convertFromSnakeCase //Convert JSON snake cases to variable camel case
                     
-                    print(response.data)
                     movieList = try decoder.decode(MovieList.self, from: response.data)
                     self.collectionView.reloadData()
                 } catch {
-                    print("erro")
+                    print("Erro ao receber dados")
+                    self.showExceptionScreen(.genericError)
                 }
             case .failure(let error):
                 print(error)
+                self.showExceptionScreen(.genericError)
             }
+        }
+    }
+    
+    func showExceptionScreen(_ type: ExceptionType) {
+        switch type {
+        case .genericError:
+            self.collectionView.backgroundColor = .red
+        case .emptySearch:
+            self.collectionView.backgroundColor = .gray
         }
     }
 
@@ -60,7 +75,7 @@ class MoviesCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return movieList?.results.count ?? 2
+        return movieList?.results.count ?? 0
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="filterGenreCollecitonViewCell" id="jQH-Qw-pbm" customClass="FilterGenreCollectionViewCell" customModule="Movies" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="208" height="213"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                <rect key="frame" x="0.0" y="0.0" width="208" height="213"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Of3-Xi-7Z9" userLabel="Content View">
+                        <rect key="frame" x="0.0" y="44" width="208" height="135"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dfK-P4-B6F" userLabel="Content">
+                                <rect key="frame" x="0.0" y="0.0" width="208" height="135"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bSk-pJ-YGM" userLabel="Card">
+                                        <rect key="frame" x="10" y="10" width="188" height="115"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gênero" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="abj-uj-sUO">
+                                                <rect key="frame" x="5" y="44" width="178" height="27.5"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
+                                                <color key="textColor" red="0.96862745100000003" green="0.80784313730000001" blue="0.35686274509999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="abj-uj-sUO" firstAttribute="centerY" secondItem="bSk-pJ-YGM" secondAttribute="centerY" id="QtM-7g-jbl"/>
+                                            <constraint firstItem="abj-uj-sUO" firstAttribute="leading" secondItem="bSk-pJ-YGM" secondAttribute="leading" constant="5" id="YR5-v5-doG"/>
+                                            <constraint firstAttribute="trailing" secondItem="abj-uj-sUO" secondAttribute="trailing" constant="5" id="rmJ-VB-G97"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="bSk-pJ-YGM" firstAttribute="leading" secondItem="dfK-P4-B6F" secondAttribute="leading" constant="10" id="FyY-yy-jNS"/>
+                                    <constraint firstAttribute="bottom" secondItem="bSk-pJ-YGM" secondAttribute="bottom" constant="10" id="djY-qP-3d8"/>
+                                    <constraint firstItem="bSk-pJ-YGM" firstAttribute="top" secondItem="dfK-P4-B6F" secondAttribute="top" constant="10" id="mkg-lc-Mbr"/>
+                                    <constraint firstAttribute="trailing" secondItem="bSk-pJ-YGM" secondAttribute="trailing" constant="10" id="qLZ-XI-dN6"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="dfK-P4-B6F" firstAttribute="leading" secondItem="Of3-Xi-7Z9" secondAttribute="leading" id="IKn-Oh-5ZJ"/>
+                            <constraint firstItem="dfK-P4-B6F" firstAttribute="top" secondItem="Of3-Xi-7Z9" secondAttribute="top" id="J82-qq-ZhJ"/>
+                            <constraint firstAttribute="trailing" secondItem="dfK-P4-B6F" secondAttribute="trailing" id="guI-0B-1yD"/>
+                            <constraint firstAttribute="bottom" secondItem="dfK-P4-B6F" secondAttribute="bottom" id="s6X-h9-XcY"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="QYY-cX-pdl" firstAttribute="trailing" secondItem="Of3-Xi-7Z9" secondAttribute="trailing" id="1Pz-tT-bnM"/>
+                <constraint firstItem="Of3-Xi-7Z9" firstAttribute="leading" secondItem="QYY-cX-pdl" secondAttribute="leading" id="2ag-iP-OOl"/>
+                <constraint firstItem="Of3-Xi-7Z9" firstAttribute="bottom" secondItem="QYY-cX-pdl" secondAttribute="bottom" id="55p-Vs-P2G"/>
+                <constraint firstItem="QYY-cX-pdl" firstAttribute="top" secondItem="Of3-Xi-7Z9" secondAttribute="top" id="exS-gC-DZK"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="QYY-cX-pdl"/>
+            <size key="customSize" width="219" height="242"/>
+            <connections>
+                <outlet property="cardView" destination="bSk-pJ-YGM" id="u0E-lb-79G"/>
+                <outlet property="nameLabel" destination="abj-uj-sUO" id="KYd-k6-aEr"/>
+            </connections>
+            <point key="canvasLocation" x="-124.6376811594203" y="134.26339285714286"/>
+        </collectionViewCell>
+    </objects>
+</document>

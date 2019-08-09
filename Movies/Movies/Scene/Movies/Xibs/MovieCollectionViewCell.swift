@@ -14,6 +14,9 @@ class MovieCollectionViewCell: UICollectionViewCell {
     private var genreLocal = SwinjectContainer.container.resolve(GenreLocal.self)!
     private var movieLocal = SwinjectContainer.container.resolve(MovieLocal.self)!
     private var movie: Movie?
+    var favouriteCell: Bool = false
+    weak var favouriteDelegate: FavouriteCellDelegate?
+    
     
     @IBOutlet weak var moviePosterImageView: UIImageView!
     @IBOutlet weak var movieTitleLabel: UILabel!
@@ -158,6 +161,10 @@ class MovieCollectionViewCell: UICollectionViewCell {
                 NSLog("Erro ao tentar favoritar o filme: %@", error.localizedDescription)
                 
             }
+        }
+        
+        if favouriteCell {
+            favouriteDelegate?.refreshTable()
         }
     }
     

@@ -10,6 +10,14 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Filters-->
+        <scene sceneID="GAr-lZ-TzG">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Filters" id="mfW-hD-Hyu" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2Ch-7b-cO4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="251" y="713"/>
+        </scene>
         <!--Favoritos-->
         <scene sceneID="WeO-nN-lmg">
             <objects>
@@ -25,7 +33,7 @@
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="10" maxX="0.0" maxY="10"/>
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
@@ -40,6 +48,9 @@
                         <viewLayoutGuide key="safeArea" id="ycX-qu-yBU"/>
                     </view>
                     <tabBarItem key="tabBarItem" tag="1" title="Favoritos" image="favorite_empty_icon" id="FCz-eA-MuQ"/>
+                    <connections>
+                        <outlet property="collectionView" destination="139-Cf-PKK" id="FW2-xf-aCS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JdV-qb-RyZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -60,7 +71,7 @@
                                     <size key="itemSize" width="300" height="370"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="10"/>
+                                    <inset key="sectionInset" minX="0.0" minY="10" maxX="0.0" maxY="10"/>
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
@@ -112,6 +123,7 @@
                     <connections>
                         <segue destination="H3h-7t-J09" kind="relationship" relationship="viewControllers" id="joc-XC-V08"/>
                         <segue destination="Cnu-gy-Aei" kind="relationship" relationship="viewControllers" id="1E2-xz-CCr"/>
+                        <segue destination="mfW-hD-Hyu" kind="presentation" identifier="goToFilter" id="gZc-nI-MoO"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vAU-kU-Cwv" userLabel="First Responder" sceneMemberID="firstResponder"/>

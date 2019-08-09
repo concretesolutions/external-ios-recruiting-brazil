@@ -1,15 +1,14 @@
 //
-//  MovieListViewModel.swift
+//  FavouriteListViewModel.swift
 //  Movies
 //
-//  Created by Alexandre Thadeu on 06/08/19.
+//  Created by Alexandre Thadeu on 08/08/19.
 //  Copyright © 2019 AlexandreThadeu. All rights reserved.
 //
 
 import Foundation
 
-
-class MovieListViewModel {
+class FavouriteListViewModel {
     var dataSource: GenericDataSource<Movie>?
     var status: DynamicValue<Event>?
     var movieRepository = SwinjectContainer.container.resolve(MovieRepository.self)!
@@ -20,19 +19,21 @@ class MovieListViewModel {
         self.status = event
     }
     
-    func getMovies(page: Int?) {
-        movieRepository.getMoviesList(page: page ?? 1, completion: { result in
+    func getMovies() {
+        movieRepository.getFavouriteMovies(completion: { result in
             switch result {
             case .success(payload: let movies):
-                if let page = page, page > 1 {
-                    self.dataSource?.data.value.append(contentsOf: movies)
-                } else {
-                    self.dataSource?.data.value = movies
-                }
+                self.dataSource?.backupData.value = movies
+                self.dataSource?.data.value = movies
                 self.status?.value = .success(nil)
                 
             case .failure(event: let event):
-                self.status?.value = event
+                switch event {
+                case .empty:
+                    self.dataSource?.data.value = []
+                default:
+                    self.status?.value = event
+                }
             }
         })
     }

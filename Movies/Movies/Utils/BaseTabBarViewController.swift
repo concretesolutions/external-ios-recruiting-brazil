@@ -30,6 +30,15 @@ class BaseTabBarViewController: UITabBarController {
         
     }
     
+    func addRightBarButton() {
+       
+        self.navigationItem.rightBarButtonItem =  UIBarButtonItem(title: "Filtros", style: .plain, target: self, action: #selector(segueToFilter))
+    }
+    
+    func removeRightBarButton() {
+        self.navigationItem.rightBarButtonItem = nil
+    }
+    
     func removeSearch() {
          self.navigationItem.searchController = nil
     }
@@ -39,6 +48,10 @@ class BaseTabBarViewController: UITabBarController {
         if setSearch {
             setupSearch()
         }
+    }
+    
+    @objc func segueToFilter() {
+        self.performSegue(withIdentifier: "goToFilter", sender: nil)
     }
     
 }

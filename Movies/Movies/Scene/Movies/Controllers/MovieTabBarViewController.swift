@@ -9,11 +9,13 @@
 import UIKit
 
 class MovieTabBarViewController: BaseTabBarViewController {
-
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.removeSearch()
         self.setupNavTitle(title: "Filmes", setSearch: false)
+        self.removeRightBarButton()
     }
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
@@ -22,11 +24,15 @@ class MovieTabBarViewController: BaseTabBarViewController {
         case 0:
             self.removeSearch()
             self.setupNavTitle(title: "Filmes", setSearch: false)
+            self.removeRightBarButton()
         case 1:
             self.setupNavTitle(title: "Filmes Favoritos ♡", setSearch: true)
+            self.addRightBarButton()
         default:
             self.removeSearch()
             self.setupNavTitle(title: "Movie", setSearch: false)
+            self.removeRightBarButton()
+
         }
     
     }

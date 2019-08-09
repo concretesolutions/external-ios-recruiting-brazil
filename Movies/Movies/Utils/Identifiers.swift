@@ -11,5 +11,6 @@ import Foundation
 struct Identifiers {
     enum CollectionCell: String {
         case movieCell = "movieCollectionViewCell"
+        case genreFilterCell = "filterGenreCollecitonViewCell"
     }
 }

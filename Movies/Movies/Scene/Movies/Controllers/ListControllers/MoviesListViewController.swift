@@ -10,7 +10,8 @@ import UIKit
 
 class MoviesListViewController: UIViewController {
     
-    private let dataSource = MovieDataSource()
+    let dataSource = MovieDataSource()
+    var page: Int = 1
     lazy var viewModel: MovieListViewModel = {
         return MovieListViewModel(dataSource: dataSource)
     }()
@@ -21,15 +22,16 @@ class MoviesListViewController: UIViewController {
             collectionView.register(cell, forCellWithReuseIdentifier: Identifiers.CollectionCell.movieCell.rawValue)
         }
     }
-
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.collectionView.reloadData()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configUI()
         self.configBinds()
-        
-        self.viewModel.getMovies(page: 1)
+        self.viewModel.getMovies(page: page)
     }
     
     func configUI() {

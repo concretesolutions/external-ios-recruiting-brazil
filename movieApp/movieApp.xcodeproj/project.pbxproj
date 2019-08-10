@@ -141,6 +141,7 @@
 				CC0EB1DF22FCF6620019D462 /* Movie.swift */,
 				CC29922422FDE02300E7BD70 /* MovieList.swift */,
 				CCD3EAF122FE77B4009D2C9D /* GenreList.swift */,
+				CCD3EAF322FE77FB009D2C9D /* Genre.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -190,7 +191,6 @@
 			isa = PBXGroup;
 			children = (
 				CC0F34CB22FBCC2E00F518E1 /* ViewController.swift */,
-				CCD3EAF322FE77FB009D2C9D /* Genre.swift */,
 				CC29922022FDB8DE00E7BD70 /* MoviesCollectionViewController.swift */,
 				CC29922222FDC1BE00E7BD70 /* MoviesCollectionViewCell.swift */,
 				CC32D7EC22FE11C100072742 /* DetailsViewController.swift */,

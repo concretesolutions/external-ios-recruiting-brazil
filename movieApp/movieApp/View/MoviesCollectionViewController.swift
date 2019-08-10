@@ -28,8 +28,8 @@ class MoviesCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+        //Dismiss keyboard
+        self.collectionView.keyboardDismissMode = .onDrag
         
         loadGenreList()
         loadMoviesData()
@@ -82,6 +82,29 @@ class MoviesCollectionViewController: UICollectionViewController {
                 }
             case .failure(let error):
                 print(error)
+            }
+        }
+    }
+    
+    func searchMovies(named query: String) {
+        
+        let provider = MoyaProvider<MovieDB>()
+        provider.request(.searchMovies(query: query)) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase //Convert JSON snake cases to variable camel case
+                    
+                    movieList = try decoder.decode(MovieList.self, from: response.data)
+                    self.collectionView.reloadData()
+                } catch {
+                    print("Erro ao receber dados")
+                    self.showExceptionScreen(.genericError)
+                }
+            case .failure(let error):
+                print(error)
+                self.showExceptionScreen(.genericError)
             }
         }
     }
@@ -145,6 +168,7 @@ class MoviesCollectionViewController: UICollectionViewController {
         vc?.overview = selectedMovie.overview
         self.navigationController?.pushViewController(vc!, animated: true)
     }
+    
 }
 
 // MARK: UICollectionViewDelegateFlowLayout
@@ -172,3 +196,18 @@ extension MoviesCollectionViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: TexFieldDelegate
+extension MoviesCollectionViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        
+        guard let query = textField.text else { return false }
+        
+        self.searchMovies(named: query)
+        
+        return true
+    }
+    
+    
+}

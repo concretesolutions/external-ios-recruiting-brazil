@@ -35,8 +35,10 @@ class DetailsViewController: UIViewController {
         movieGenres.text = genre.joined(separator:", ")
         overviewText.text = overview
         
+        overviewText.isEditable = false
+        
         // Do any additional setup after loading the view.
     }
-    
+ 
 
 }

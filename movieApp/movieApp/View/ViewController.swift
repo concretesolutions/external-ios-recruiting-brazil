@@ -15,13 +15,8 @@ class ViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
-        //Teste Moya
 
-        
-        print("TESTE DB")
     }
-
 
 }
 

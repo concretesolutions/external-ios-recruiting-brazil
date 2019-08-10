@@ -13,6 +13,7 @@ enum MovieDB {
     static private let apiKey = "3364f96fa6acefbd524335c6cc0a4932"
     
     case showPopularMovies
+    case genreList
 }
 
 extension MovieDB: TargetType {
@@ -24,12 +25,14 @@ extension MovieDB: TargetType {
         switch  self {
         case .showPopularMovies:
             return "/discover/movie"
+        case .genreList:
+            return "/genre/movie/list"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .showPopularMovies:
+        case .showPopularMovies, .genreList:
             return .get
         }
     }
@@ -40,7 +43,7 @@ extension MovieDB: TargetType {
     
     var task: Task {
         switch self {
-        case .showPopularMovies:
+        case .showPopularMovies, .genreList:
             return .requestParameters(parameters: ["api_key": MovieDB.apiKey], encoding: URLEncoding.queryString)
         }
     }

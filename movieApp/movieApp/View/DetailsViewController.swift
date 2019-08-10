@@ -10,25 +10,33 @@ import UIKit
 
 class DetailsViewController: UIViewController {
     
-    @IBOutlet weak var movieTitle: UILabel!
+    @IBOutlet weak var movieImage: UIImageView!
+
+    @IBOutlet weak var movieName: UILabel!
+    
+    @IBOutlet weak var movieYear: UILabel!
+    
+    @IBOutlet weak var movieGenres: UILabel!
+    @IBOutlet weak var overviewText: UITextView!
+    
     
     var name = ""
+    var releaseDate = ""
+    var genre = [String]()
+    var overview = ""
+    var image = UIImage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        movieTitle.text = name
+        
+        movieImage.image = image
+        movieName.text = name
+        movieYear.text = String(releaseDate.prefix(4))
+        movieGenres.text = genre.joined(separator:", ")
+        overviewText.text = overview
+        
         // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

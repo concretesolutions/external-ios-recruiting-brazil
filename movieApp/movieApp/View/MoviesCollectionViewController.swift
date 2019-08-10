@@ -15,38 +15,72 @@ private let sectionInsets = UIEdgeInsets(top: 50.0,
                                          left: 20.0,
                                          bottom: 50.0,
                                          right: 20.0)
+
+
 private var movieList: MovieList?
 private var genreList: GenreList?
 
-enum ExceptionType {
+enum State {
+    case defaultScreen
+    case loading
     case emptySearch
     case genericError
 }
 
-class MoviesCollectionViewController: UICollectionViewController {
 
+class MoviesCollectionViewController: UICollectionViewController {
+    
+    @IBOutlet weak var warningLabel: UILabel!
+    
+    //MARK: View State
+    
+    private let loadingIndicator = UIActivityIndicatorView(style: .gray)
+
+    private var viewState: State = .loading {
+        didSet {
+            loadingIndicator.stopAnimating()
+            switch viewState {
+            case .defaultScreen:
+                loadingIndicator.isHidden = true
+                warningLabel.isHidden = true
+            case .loading:
+                loadingIndicator.isHidden = false
+                loadingIndicator.startAnimating()
+                warningLabel.isHidden = true
+            case .genericError:
+                loadingIndicator.isHidden = true
+                warningLabel.isHidden = false
+                warningLabel.text = "Um erro ocorreu. Por favor, tente novamente"
+            case .emptySearch:
+                loadingIndicator.isHidden = true
+                warningLabel.isHidden = false
+                warningLabel.text = "Sua busca não retornou resultados"
+            }
+            self.collectionView.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         //Dismiss keyboard
         self.collectionView.keyboardDismissMode = .onDrag
         
+        //Configure view
+        self.view.addSubview(loadingIndicator)
+        loadingIndicator.frame = self.view.bounds
+        loadingIndicator.startAnimating()
+        warningLabel.isHidden = true
+        
         loadGenreList()
         loadMoviesData()
     }
     
-    
-    func showExceptionScreen(_ type: ExceptionType) {
-        switch type {
-        case .genericError:
-            self.collectionView.backgroundColor = .red
-        case .emptySearch:
-            self.collectionView.backgroundColor = .gray
-        }
-    }
-    
     //MARK: Requests
     func loadMoviesData() {
+        if movieList != nil {
+            movieList = nil
+        }
         let provider = MoyaProvider<MovieDB>()
         provider.request(.showPopularMovies) { result in
             switch result {
@@ -56,14 +90,14 @@ class MoviesCollectionViewController: UICollectionViewController {
                     decoder.keyDecodingStrategy = .convertFromSnakeCase //Convert JSON snake cases to variable camel case
                     
                     movieList = try decoder.decode(MovieList.self, from: response.data)
-                    self.collectionView.reloadData()
+                    self.viewState = .defaultScreen
                 } catch {
                     print("Erro ao receber dados")
-                    self.showExceptionScreen(.genericError)
+                    self.viewState = .genericError
                 }
             case .failure(let error):
                 print(error)
-                self.showExceptionScreen(.genericError)
+                self.viewState = .genericError
             }
         }
     }
@@ -87,7 +121,10 @@ class MoviesCollectionViewController: UICollectionViewController {
     }
     
     func searchMovies(named query: String) {
-        
+        if movieList != nil {
+            movieList = nil
+        }
+        self.viewState = .loading
         let provider = MoyaProvider<MovieDB>()
         provider.request(.searchMovies(query: query)) { result in
             switch result {
@@ -97,14 +134,18 @@ class MoviesCollectionViewController: UICollectionViewController {
                     decoder.keyDecodingStrategy = .convertFromSnakeCase //Convert JSON snake cases to variable camel case
                     
                     movieList = try decoder.decode(MovieList.self, from: response.data)
-                    self.collectionView.reloadData()
+                    if movieList!.results.count > 0 {
+                        self.viewState = .defaultScreen
+                    } else {
+                        self.viewState = .emptySearch
+                    }
                 } catch {
                     print("Erro ao receber dados")
-                    self.showExceptionScreen(.genericError)
+                    self.viewState = .emptySearch
                 }
             case .failure(let error):
                 print(error)
-                self.showExceptionScreen(.genericError)
+                self.viewState = .genericError
             }
         }
     }
@@ -148,6 +189,8 @@ class MoviesCollectionViewController: UICollectionViewController {
             let data = try? Data(contentsOf: movie.imagePath)
             if let imageData = data {
                 cell.movieImage.image = UIImage(data: imageData)
+            } else {
+                cell.movieImage.image = UIImage(imageLiteralResourceName: "no_image_available_icon.jpg")
             }
         }
         return cell

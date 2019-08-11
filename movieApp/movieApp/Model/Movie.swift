@@ -16,7 +16,7 @@ struct Movie: Decodable {
     let overview: String
     let posterPath: String?
     
-    var imagePath: URL {
+    var imageUrl: URL {
         let baseUrl = "https://image.tmdb.org/t/p/original"
         let fullUrl = baseUrl + (posterPath ?? "")
         return URL(string: fullUrl)!

@@ -184,9 +184,8 @@ class MoviesCollectionViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MoviesCollectionViewCell
         // Configure the cell
         if let movie = movieList?.results[indexPath.row] {
-            //cell.backgroundColor = .black
             cell.movieTitle.text = movie.title
-            let data = try? Data(contentsOf: movie.imagePath)
+            let data = try? Data(contentsOf: movie.imageUrl)
             if let imageData = data {
                 cell.movieImage.image = UIImage(data: imageData)
             } else {

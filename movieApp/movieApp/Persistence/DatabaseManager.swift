@@ -16,6 +16,7 @@ class DatabaseManager {
     
     init() {
         realm = try! Realm()
+        print(realm.configuration.fileURL!)
     }
     
     func saveFavorite(_ movie: Movie) {
@@ -27,12 +28,21 @@ class DatabaseManager {
         let newMovie = FavoritedMovie()
         newMovie.id = movie.id
         newMovie.title = movie.title
-        newMovie.year = movie.releaseDate
+        newMovie.year = movie.year
         newMovie.overview = movie.overview
-        newMovie.imageURL = movie.imagePath.absoluteString
-        
+        newMovie.imagePath = movie.imageUrl.relativePath
+
         try! realm.write {
             realm.add(newMovie)
         }
+    }
+    
+    func getSavedFavorites() -> [FavoritedMovie]{
+        var array = [FavoritedMovie]()
+        let elements = self.realm.objects(FavoritedMovie.self)
+        for e in elements {
+            array.append(e)
+        }
+        return array
     }
 }

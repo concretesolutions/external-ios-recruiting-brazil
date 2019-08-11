@@ -14,7 +14,7 @@ class FavoritedMovie: Object {
     @objc dynamic var title: String = ""
     @objc dynamic var year: String = ""
     @objc dynamic var overview: String = ""
-    @objc dynamic var imageURL: String = ""
+    @objc dynamic var imagePath: String = ""
     
     override static func primaryKey() -> String {
         return "id"

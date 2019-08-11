@@ -9,6 +9,7 @@
 import Foundation
 
 struct Movie: Decodable {
+    let id: Int
     let title: String
     let releaseDate: String
     let genreIds: [Int]
@@ -19,5 +20,9 @@ struct Movie: Decodable {
         let baseUrl = "https://image.tmdb.org/t/p/original"
         let fullUrl = baseUrl + (posterPath ?? "")
         return URL(string: fullUrl)!
+    }
+    
+    var year: String {
+        return String(releaseDate.prefix(4))
     }
 }

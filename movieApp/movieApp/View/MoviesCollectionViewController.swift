@@ -205,10 +205,8 @@ class MoviesCollectionViewController: UICollectionViewController {
         if let selectedCell = collectionView.cellForItem(at: indexPath) as? MoviesCollectionViewCell {
             vc?.image = selectedCell.movieImage.image ?? UIImage()
         }
-        vc?.name = selectedMovie.title
+        vc?.movie = selectedMovie
         vc?.genre = self.idToGenreName(for: selectedMovie)
-        vc?.releaseDate = selectedMovie.releaseDate
-        vc?.overview = selectedMovie.overview
         self.navigationController?.pushViewController(vc!, animated: true)
     }
     
@@ -216,7 +214,7 @@ class MoviesCollectionViewController: UICollectionViewController {
 
 // MARK: UICollectionViewDelegateFlowLayout
 
-///Define questoes de espaçamento e tamanho das celulas
+///Spacing and cell size
 extension MoviesCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let paddingSpace = sectionInsets.left * (itemsPerRow + 1)

@@ -30,11 +30,21 @@ class DatabaseManager {
         newMovie.title = movie.title
         newMovie.year = movie.year
         newMovie.overview = movie.overview
-        newMovie.imagePath = movie.imageUrl.relativePath
+        newMovie.imagePath = movie.imageUrl.absoluteString
 
         try! realm.write {
             realm.add(newMovie)
         }
+    }
+    
+    func deleteFavorite(id: Int) {
+        let movie = self.realm.object(ofType: FavoritedMovie.self, forPrimaryKey: id)
+        guard movie != nil else { return }
+        
+        try! realm.write {
+            realm.delete(movie!)
+        }
+        
     }
     
     func getSavedFavorites() -> [FavoritedMovie]{

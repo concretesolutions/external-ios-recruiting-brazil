@@ -13,10 +13,12 @@ private var movies = [FavoritedMovie]()
 
 class FavoritesTableViewController: UITableViewController {
 
+
+    @IBOutlet weak var warningLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        movies = DatabaseManager.shared.getSavedFavorites()
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -27,7 +29,17 @@ class FavoritesTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         
         movies = DatabaseManager.shared.getSavedFavorites()
+        warningLabel.isHidden = willHideWarningLabel()
         self.tableView.reloadData()
+    }
+    
+    ///Defines if the warning label should appears
+    func willHideWarningLabel() -> Bool{
+        if movies.count <= 0 {
+            return false
+        } else {
+            return true
+        }
     }
     
     // MARK: - Table view data source
@@ -73,17 +85,20 @@ class FavoritesTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
+            DatabaseManager.shared.deleteFavorite(id: movies[indexPath.row].id)
+            movies.remove(at: indexPath.row)
+            warningLabel.isHidden = willHideWarningLabel()
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+ 
 
     /*
     // Override to support rearranging the table view.

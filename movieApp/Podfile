@@ -1,12 +1,20 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
+use_frameworks!
+
 target 'movieApp' do
-  # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
 
   # Pods for movieApp
   pod 'Moya', '~> 13.0'
   pod 'RealmSwift'
+
+  
+target 'movieAppTests' do
+  # Pods for movieAppTests
+  pod 'Quick'
+  pod 'Nimble'
+end
+
 
 end

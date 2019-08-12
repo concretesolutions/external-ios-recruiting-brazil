@@ -19,6 +19,10 @@ class DatabaseManager {
         print(realm.configuration.fileURL!)
     }
     
+    init(realm: Realm) {
+        self.realm = realm
+    }
+    
     func saveFavorite(_ movie: Movie) {
         if self.realm.object(ofType: FavoritedMovie.self, forPrimaryKey: movie.id) != nil {
             //Movie as been already favorited

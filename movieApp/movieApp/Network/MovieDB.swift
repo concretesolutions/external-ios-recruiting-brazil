@@ -41,7 +41,7 @@ extension MovieDB: TargetType {
     }
     
     var sampleData: Data {
-        return Data() //Necessario para teste unitario
+        return Data() 
     }
     
     var task: Task {

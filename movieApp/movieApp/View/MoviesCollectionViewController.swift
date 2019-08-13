@@ -20,7 +20,7 @@ private let sectionInsets = UIEdgeInsets(top: 50.0,
 private var movieList: MovieList?
 private var genreList: GenreList?
 
-enum State {
+enum ViewState {
     case defaultScreen
     case loading
     case emptySearch
@@ -30,13 +30,14 @@ enum State {
 
 class MoviesCollectionViewController: UICollectionViewController {
     
-    @IBOutlet weak var warningLabel: UILabel!
+    let requester = MovieRequester()
     
     //MARK: View State
+    @IBOutlet weak var warningLabel: UILabel!
     
     private let loadingIndicator = UIActivityIndicatorView(style: .gray)
 
-    private var viewState: State = .loading {
+    private var viewState: ViewState = .loading {
         didSet {
             loadingIndicator.stopAnimating()
             switch viewState {
@@ -72,83 +73,26 @@ class MoviesCollectionViewController: UICollectionViewController {
         loadingIndicator.startAnimating()
         warningLabel.isHidden = true
         
-        loadGenreList()
-        loadMoviesData()
-    }
-    
-    //MARK: Requests
-    func loadMoviesData() {
-        if movieList != nil {
-            movieList = nil
+        //Load genre list
+        requester.getGenreList { (success, result) in
+            if success, let list = result {
+                genreList = list
+            }
         }
-        let provider = MoyaProvider<MovieDB>()
-        provider.request(.showPopularMovies) { result in
-            switch result {
-            case .success(let response):
-                do {
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase //Convert JSON snake cases to variable camel case
-                    
-                    movieList = try decoder.decode(MovieList.self, from: response.data)
-                    self.viewState = .defaultScreen
-                } catch {
-                    print("Erro ao receber dados")
-                    self.viewState = .genericError
-                }
-            case .failure(let error):
-                print(error)
+        
+        //Load movies
+        movieList = nil
+        requester.getPopularMovies { (success, result) in
+            if success, let list = result {
+                movieList = list
+                self.viewState = .defaultScreen
+            } else {
                 self.viewState = .genericError
             }
         }
     }
     
-    func loadGenreList() {
-        let provider = MoyaProvider<MovieDB>()
-        provider.request(.genreList) { result in
-            switch result {
-            case .success(let response):
-                do {
-                    let decoder = JSONDecoder()
-                    
-                    genreList = try decoder.decode(GenreList.self, from: response.data)
-                } catch {
-                    print("Erro ao receber dados")
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
     
-    func searchMovies(named query: String) {
-        if movieList != nil {
-            movieList = nil
-        }
-        self.viewState = .loading
-        let provider = MoyaProvider<MovieDB>()
-        provider.request(.searchMovies(query: query)) { result in
-            switch result {
-            case .success(let response):
-                do {
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase //Convert JSON snake cases to variable camel case
-                    
-                    movieList = try decoder.decode(MovieList.self, from: response.data)
-                    if movieList!.results.count > 0 {
-                        self.viewState = .defaultScreen
-                    } else {
-                        self.viewState = .emptySearch
-                    }
-                } catch {
-                    print("Erro ao receber dados")
-                    self.viewState = .emptySearch
-                }
-            case .failure(let error):
-                print(error)
-                self.viewState = .genericError
-            }
-        }
-    }
     
     //MARK: Data treatment
     
@@ -244,7 +188,21 @@ extension MoviesCollectionViewController: UITextFieldDelegate {
         
         guard let query = textField.text else { return false }
         
-        self.searchMovies(named: query)
+        //Request search
+        self.viewState = .loading
+        movieList = nil
+        self.requester.getSearchedMovies(named: query) { (success, result) in
+            if success {
+                if let list = result, list.results.count > 0 {
+                    movieList = list
+                    self.viewState = .defaultScreen
+                } else {
+                    self.viewState = .emptySearch
+                }
+            } else {
+                self.viewState = .genericError
+            }
+        }
         
         return true
     }

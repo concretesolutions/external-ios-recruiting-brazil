@@ -22,6 +22,7 @@
 		CC32D7ED22FE11C100072742 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC32D7EC22FE11C100072742 /* DetailsViewController.swift */; };
 		CC5B9B172301CF9300A2C1B1 /* DatabaseManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5B9B162301CF9300A2C1B1 /* DatabaseManagerSpec.swift */; };
 		CC5B9B1A23022D3C00A2C1B1 /* MovieRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5B9B1923022D3C00A2C1B1 /* MovieRequester.swift */; };
+		CC5B9B1C230248A100A2C1B1 /* MoviesCollectionViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5B9B1B230248A100A2C1B1 /* MoviesCollectionViewControllerSpec.swift */; };
 		CC76AD4623005C96004C2A83 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC76AD4523005C96004C2A83 /* DatabaseManager.swift */; };
 		CC76AD4823007DB1004C2A83 /* FavoritesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC76AD4723007DB1004C2A83 /* FavoritesTableViewController.swift */; };
 		CC76AD4A2300824F004C2A83 /* FavoritesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC76AD492300824F004C2A83 /* FavoritesTableViewCell.swift */; };
@@ -60,6 +61,7 @@
 		CC32D7EC22FE11C100072742 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		CC5B9B162301CF9300A2C1B1 /* DatabaseManagerSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManagerSpec.swift; sourceTree = "<group>"; };
 		CC5B9B1923022D3C00A2C1B1 /* MovieRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRequester.swift; sourceTree = "<group>"; };
+		CC5B9B1B230248A100A2C1B1 /* MoviesCollectionViewControllerSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesCollectionViewControllerSpec.swift; sourceTree = "<group>"; };
 		CC76AD4523005C96004C2A83 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		CC76AD4723007DB1004C2A83 /* FavoritesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesTableViewController.swift; sourceTree = "<group>"; };
 		CC76AD492300824F004C2A83 /* FavoritesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesTableViewCell.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 			children = (
 				CC5B9B162301CF9300A2C1B1 /* DatabaseManagerSpec.swift */,
 				CC909BFC2301C97E00D6CB1C /* Info.plist */,
+				CC5B9B1B230248A100A2C1B1 /* MoviesCollectionViewControllerSpec.swift */,
 			);
 			path = movieAppTests;
 			sourceTree = "<group>";
@@ -404,6 +407,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC5B9B1C230248A100A2C1B1 /* MoviesCollectionViewControllerSpec.swift in Sources */,
 				CC5B9B172301CF9300A2C1B1 /* DatabaseManagerSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

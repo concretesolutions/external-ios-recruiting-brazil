@@ -30,7 +30,7 @@ enum ViewState {
 
 class MoviesCollectionViewController: UICollectionViewController {
     
-    let requester = MovieRequester()
+    var requester: MovieDBRequestProtocol?
     
     //MARK: View State
     @IBOutlet weak var warningLabel: UILabel!
@@ -73,16 +73,26 @@ class MoviesCollectionViewController: UICollectionViewController {
         loadingIndicator.startAnimating()
         warningLabel.isHidden = true
         
+        if requester == nil {
+            requester = MovieRequester()
+        }
         //Load genre list
-        requester.getGenreList { (success, result) in
+        requester!.getGenreList { (success, result) in
             if success, let list = result {
                 genreList = list
             }
         }
         
-        //Load movies
+        loadMovies()
+      
+    }
+    
+    //MARK: Requests
+    
+    ///Calls request funcion to load most popular movies
+    func loadMovies() {
         movieList = nil
-        requester.getPopularMovies { (success, result) in
+        requester!.getPopularMovies { (success, result) in
             if success, let list = result {
                 movieList = list
                 self.viewState = .defaultScreen
@@ -92,6 +102,22 @@ class MoviesCollectionViewController: UICollectionViewController {
         }
     }
     
+    ///Calls request funcion to load searched movies
+    func searchMovies(_ query: String) {
+        movieList = nil
+        self.requester!.getSearchedMovies(named: query) { (success, result) in
+            if success {
+                if let list = result, list.results.count > 0 {
+                    movieList = list
+                    self.viewState = .defaultScreen
+                } else {
+                    self.viewState = .emptySearch
+                }
+            } else {
+                self.viewState = .genericError
+            }
+        }
+    }
     
     
     //MARK: Data treatment
@@ -190,22 +216,18 @@ extension MoviesCollectionViewController: UITextFieldDelegate {
         
         //Request search
         self.viewState = .loading
-        movieList = nil
-        self.requester.getSearchedMovies(named: query) { (success, result) in
-            if success {
-                if let list = result, list.results.count > 0 {
-                    movieList = list
-                    self.viewState = .defaultScreen
-                } else {
-                    self.viewState = .emptySearch
-                }
-            } else {
-                self.viewState = .genericError
-            }
-        }
-        
+        self.searchMovies(query)
+    
         return true
     }
     
     
+}
+
+//MARK: Info functions
+extension MoviesCollectionViewController {
+    ///Returns the view state at the moment
+    func actualViewState() -> ViewState{
+        return self.viewState
+    }
 }

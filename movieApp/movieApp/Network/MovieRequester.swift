@@ -9,7 +9,13 @@
 import Foundation
 import Moya
 
-class MovieRequester {
+protocol MovieDBRequestProtocol {
+    func getPopularMovies(completion: @escaping (_ success: Bool, MovieList?) -> ())
+    func getSearchedMovies(named query: String, completion: @escaping (_ success: Bool, MovieList?) -> ())
+    func getGenreList(completion: @escaping (_ success: Bool, GenreList?) -> ())
+}
+
+class MovieRequester: MovieDBRequestProtocol {
     let provider: MoyaProvider<MovieDB>
     
     init() {

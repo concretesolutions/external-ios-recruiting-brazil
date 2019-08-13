@@ -59,4 +59,12 @@ class DatabaseManager {
         }
         return array
     }
+    
+    func isMovieFavorited(id: Int) -> Bool {
+        if DatabaseManager.shared.realm.object(ofType: FavoritedMovie.self, forPrimaryKey: id) != nil {
+            return true
+        } else {
+            return false
+        }
+    }
 }

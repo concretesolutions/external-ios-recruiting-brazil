@@ -12,4 +12,7 @@ class MoviesCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var movieTitle: UILabel!
     
     @IBOutlet weak var movieImage: UIImageView!
+    
+    @IBOutlet weak var favoriteIndicator: UIImageView!
+    
 }

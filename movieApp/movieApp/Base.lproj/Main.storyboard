@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <view key="tableFooterView" contentMode="scaleToFill" misplaced="YES" id="ldB-do-aoa">
+                        <view key="tableFooterView" contentMode="scaleToFill" id="ldB-do-aoa">
                             <rect key="frame" x="0.0" y="179" width="414" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
@@ -168,18 +168,28 @@
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="b3M-ar-B48">
                                             <rect key="frame" x="8" y="52" width="122" height="21"/>
                                         </imageView>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Mga-cz-OxJ">
+                                            <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="20" id="cYK-f6-fTp" userLabel="width = 50"/>
+                                                <constraint firstAttribute="height" constant="20" id="ctM-oV-JsI" userLabel="height = 50"/>
+                                            </constraints>
+                                        </imageView>
                                     </subviews>
                                 </view>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="eac-C5-Od0" secondAttribute="bottom" id="2MS-2g-i0a"/>
+                                    <constraint firstItem="Mga-cz-OxJ" firstAttribute="top" secondItem="tI1-ro-JIk" secondAttribute="top" id="2f5-YP-tQf"/>
                                     <constraint firstItem="b3M-ar-B48" firstAttribute="top" secondItem="tI1-ro-JIk" secondAttribute="topMargin" id="OEg-Vh-eNC"/>
                                     <constraint firstItem="b3M-ar-B48" firstAttribute="trailing" secondItem="tI1-ro-JIk" secondAttribute="trailingMargin" id="l1a-2w-xMS"/>
                                     <constraint firstItem="eac-C5-Od0" firstAttribute="top" secondItem="b3M-ar-B48" secondAttribute="bottom" id="sib-Zr-xdl"/>
                                     <constraint firstItem="eac-C5-Od0" firstAttribute="leading" secondItem="tI1-ro-JIk" secondAttribute="leading" id="tCx-aX-HE8"/>
                                     <constraint firstAttribute="trailing" secondItem="eac-C5-Od0" secondAttribute="trailing" id="toB-0U-XXC"/>
                                     <constraint firstItem="b3M-ar-B48" firstAttribute="leading" secondItem="tI1-ro-JIk" secondAttribute="leadingMargin" id="von-0r-3SX"/>
+                                    <constraint firstItem="Mga-cz-OxJ" firstAttribute="leading" secondItem="tI1-ro-JIk" secondAttribute="leading" id="xI3-A8-Kpg"/>
                                 </constraints>
                                 <connections>
+                                    <outlet property="favoriteIndicator" destination="Mga-cz-OxJ" id="MWp-36-Ys1"/>
                                     <outlet property="movieImage" destination="b3M-ar-B48" id="oj7-w0-tNG"/>
                                     <outlet property="movieTitle" destination="eac-C5-Od0" id="hiH-P1-Dzg"/>
                                 </connections>

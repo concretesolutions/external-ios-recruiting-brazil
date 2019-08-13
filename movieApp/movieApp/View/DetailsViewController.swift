@@ -49,8 +49,7 @@ class DetailsViewController: UIViewController {
     
     ///CHeck the database if the movie as been already favorited
     func checkIfIsFavorited() {
-        let favorite = DatabaseManager.shared.realm.object(ofType: FavoritedMovie.self, forPrimaryKey: movie?.id)
-        if favorite != nil {
+        if DatabaseManager.shared.isMovieFavorited(id: movie?.id ?? 0) {
             isFavorited = true
             favoriteButton.setBackgroundImage(UIImage(imageLiteralResourceName: "favorite_full_icon"), for: .normal)
         }  else {

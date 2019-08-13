@@ -87,6 +87,10 @@ class MoviesCollectionViewController: UICollectionViewController {
       
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.collectionView.reloadData()
+    }
+    
     //MARK: Requests
     
     ///Calls request funcion to load most popular movies
@@ -160,6 +164,12 @@ class MoviesCollectionViewController: UICollectionViewController {
                 cell.movieImage.image = UIImage(data: imageData)
             } else {
                 cell.movieImage.image = UIImage(imageLiteralResourceName: "no_image_available_icon.jpg")
+            }
+            
+            if DatabaseManager.shared.isMovieFavorited(id: movie.id) {
+                cell.favoriteIndicator.image = UIImage(imageLiteralResourceName: "favorite_full_icon")
+            } else {
+                cell.favoriteIndicator.image = UIImage(imageLiteralResourceName: "favorite_gray_icon")
             }
         }
         return cell
